@@ -1,10 +1,10 @@
 from authentication import check_auth
 from connect import create_collection
-
 from requirements import requirements
 
+@check_auth
 def add_admin():
-    try:    
+    try:   
         user_details = requirements()
         if len(user_details) == 4:
               name, username, password, role = user_details

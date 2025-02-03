@@ -1,33 +1,38 @@
 from connect import create_collection
 
-def check_auth():
-    try:
-        print("Following details are requird for authentication: ")
-        print("1.Username")
-        print("2.Password")
-        print("3.role")
-        username = input("Enter your username: ")
-        password = input("Enter your password: ")
-        role = input("Enter your role: ")
+def check_auth(func): 
+    def wrapper (*args, **kwargs): 
 
-        def check_validation():
-          collection = create_collection(role)
-          user_document = collection.find_one({"username": username})
-          if user_document:
+        try:
+            print("Following details are requird for authentication: ")
+            print("1.Username")
+            print("2.Password")
+            print("3.role")
+            username = input("Enter your username: ")
+            password = input("Enter your password: ")
+            role = input("Enter your role: ")
 
-            if user_document["password"] == password:
-                print("Authentication Verified.")
-                return True
-            else:
-                print("Authentication failed. Please check your password.")
-                return False
+            def check_validation():
+                collection = create_collection(role)
+                user_document = collection.find_one({"username": username})
+                if user_document:
 
-          else:
-                print("Authentication failed. Please check your username.")
-                return False
-        
-        is_validated = check_validation()
-        return is_validated
+                    if user_document["password"] == password:
+                        print("Authentication Verified.")
+                        return True
+                    else:
+                        print("Authentication failed. Please check your password.")
+                        return False
+
+                else:
+                    print("Authentication failed. Please check your username.")
+                    return False
+            
+            is_validated = check_validation()
+            if is_validated:
+                return func(*args, **kwargs)
+
+        except Exception as e:
+            print("An error occurred while checking user credentials: ", str(e))
     
-    except Exception as e:
-        print("An error occurred while checking user credentials: ", str(e))
+    return wrapper
