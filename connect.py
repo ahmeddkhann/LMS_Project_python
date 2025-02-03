@@ -10,26 +10,11 @@ def connect_to_db():
         print(f"error ocurred while connecting to database: {e}")
 
 
-def student_collection():
+def create_collection(collection):
     try: 
         db = connect_to_db()
-        collection = db["students"]
+        collection = db[f"{collection}"]
         return collection
     except Exception as e:
-        print(f"error occurred while accessing students collection")
+        print(f"error occurred while accessing {collection} collection")
 
-def teacher_collection():
-    try: 
-        db = connect_to_db()
-        collection = db["teachers"]
-        return collection
-    except Exception as e:
-        print(f"error occurred while accessing students collection")
-
-def student_collection():
-    try: 
-        db = connect_to_db()
-        collection = db["admins"]
-        return collection
-    except Exception as e:
-        print(f"error occurred while accessing students collection")
