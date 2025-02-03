@@ -2,7 +2,7 @@ import pymongo
 
 def connect_to_db():
     try:
-        uri = "mongodb+srv://iamahmedkhan02:LMS_databaset@cluster0.ng8t3.mongodb.net/"
+        uri = "mongodb+srv://iamahmedkhan02:LMS_database@cluster0.ng8t3.mongodb.net/"
         client = pymongo.MongoClient(uri)
         db = client["LMS_database"]
         return db
