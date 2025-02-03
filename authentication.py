@@ -7,13 +7,11 @@ def check_auth(func):
             print("Following details are requird for authentication: ")
             print("1.Username")
             print("2.Password")
-            print("3.role")
             username = input("Enter your username: ")
             password = input("Enter your password: ")
-            role = input("Enter your role: ")
 
             def check_validation():
-                collection = create_collection(role)
+                collection = create_collection("admin")
                 user_document = collection.find_one({"username": username})
                 if user_document:
 
