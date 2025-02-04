@@ -78,5 +78,5 @@ def admin_work_on_students():
         print(f"Error while handling students operations: {e}")
 
 
-admin_work_on_teachers()
+admin_work_on_students()
 
