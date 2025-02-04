@@ -4,7 +4,6 @@ from requirements import requirements
 from requirements import update_requirements
 
 
-
 @check_auth
 def add_user(admin_role):
     try:   
@@ -19,12 +18,13 @@ def add_user(admin_role):
        }
         collection = create_collection(admin_role)
         collection.insert_one(admin_data)
-        print("Admin added successfully")
+        print(f" added user with role: {role}")
 
     except Exception as e:
          print(f"Error while adding user: {e}")
 
-@check_auth       
+
+@check_auth
 def remove_user(role):
      try:
           admin_to_be_removed = input("enter admin username to be removed: ")
@@ -56,6 +56,7 @@ def retrieve_user_list(role):
      except Exception as e:
           print(f"Error while retrieving admin list: {e}")
 
+
 @check_auth
 def update_user(role):
      try:
@@ -83,11 +84,7 @@ def update_user(role):
           print(f"Error while updating admin: {e}")
 
 
-def operations():
-     add_user("admin")
-     retrieve_user_list("admin")
-     update_user("admin")
-     remove_user("admin")
+
 
      
 
