@@ -1,6 +1,7 @@
 from authentication import check_auth
 from connect import create_collection
 from requirements import requirements
+from requirements import update_requirements
 
 collection = create_collection("admin")
 
@@ -52,29 +53,29 @@ def retrieve_admin_list():
      except Exception as e:
           print(f"Error while retrieving admin list: {e}")
 
-
+@check_auth
 def update_admin():
      try:
           username = input("enter username of the admin to be updated: ")
-          find_Admin = collection.find_one(find_Admin)
+          find_Admin = collection.find_one({"username": username})
           
           if find_Admin:
-               name = input("Enter new name: ")
-               username = input("Enter new username: ")
-               password = input("Enter new password: ")
-               collection.update_one({"$set": 
+               name, new_username, password = update_requirements()
+               result = collection.update_one({"username": username},{"$set": 
                {
                     "name": name,
-                    "username": username,
+                    "username": new_username,
                     "password": password
                }})
-               print("Admin data updated successfully")
+               if result.matched_count > 0:
+                    print("Admin updated successfully")
+               else:
+                    print("couldnot updated admin details")
 
           else:
                print(f"Admin with username {username} is not found")
      except Exception as e :
           print(f"Error while updating admin: {e}")
-
 
               
 
