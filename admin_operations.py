@@ -3,10 +3,10 @@ from connect import create_collection
 from requirements import requirements
 from requirements import update_requirements
 
-collection = create_collection("admin")
+
 
 @check_auth
-def add_admin():
+def add_user(admin_role):
     try:   
         user_details = requirements()
         if len(user_details) == 4:
@@ -17,6 +17,7 @@ def add_admin():
               "password": password,
               "role": role
        }
+        collection = create_collection(admin_role)
         collection.insert_one(admin_data)
         print("Admin added successfully")
 
@@ -24,9 +25,10 @@ def add_admin():
          print(f"Error while adding user: {e}")
 
 @check_auth       
-def remove_admin():
+def remove_user(role):
      try:
           admin_to_be_removed = input("enter admin username to be removed: ")
+          collection = create_collection(role)
           admin_removal = collection.find_one({"username": admin_to_be_removed})
 
           if admin_removal:
@@ -40,8 +42,9 @@ def remove_admin():
 
 
 @check_auth
-def retrieve_admin_list():
+def retrieve_user_list(role):
      try:
+          collection = create_collection(role)
           admins = list(collection.find({"role": "admin"}, {"_id":0 , "name": 1, "username": 1}))
           if admins:
             for admin in admins:
@@ -54,13 +57,15 @@ def retrieve_admin_list():
           print(f"Error while retrieving admin list: {e}")
 
 @check_auth
-def update_admin():
+def update_user(role):
      try:
           username = input("enter username of the admin to be updated: ")
-          find_Admin = collection.find_one({"username": username})
+          new_collection = create_collection(role)
+          find = new_collection.find_one({"username": username})
           
-          if find_Admin:
+          if find:
                name, new_username, password = update_requirements()
+               collection = create_collection(role)
                result = collection.update_one({"username": username},{"$set": 
                {
                     "name": name,
@@ -76,6 +81,15 @@ def update_admin():
                print(f"Admin with username {username} is not found")
      except Exception as e :
           print(f"Error while updating admin: {e}")
+
+
+def operations():
+     add_user("admin")
+     retrieve_user_list("admin")
+     update_user("admin")
+     remove_user("admin")
+
+     
 
               
 
