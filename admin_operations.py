@@ -3,23 +3,36 @@ from connect import create_collection
 from requirements import requirements
 from requirements import update_requirements
 
-
 @check_auth
 def add_user(admin_role):
     try:   
         user_details = requirements()
         if len(user_details) == 4:
               name, username, password, role = user_details
-        admin_data = {
+              admin_data = {
+               "name": name,
+               "username": username,
+               "password": password,
+               "role": role
+          }
+              collection = create_collection(admin_role)
+              collection.insert_one(admin_data)
+              print(f" added user with role: {role}")
+
+        elif len(user_details) == 6:
+             name, username, password, role, marks, status = user_details
+             student_data = {
               "name": name,
               "username": username,
               "password": password,
-              "role": role
+              "role": role,
+              "marks": marks,
+              "status": status
        }
-        collection = create_collection(admin_role)
-        collection.insert_one(admin_data)
-        print(f" added user with role: {role}")
-
+             collection = create_collection("students")
+             collection.insert_one(student_data)
+             print(f" added user with role: {role}")
+        
     except Exception as e:
          print(f"Error while adding user: {e}")
 

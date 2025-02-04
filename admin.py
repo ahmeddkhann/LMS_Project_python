@@ -1,5 +1,4 @@
 from admin_operations import add_user, update_user, remove_user, retrieve_user_list
-from student_operations import add_student
 def admin_work():
         print("Welcome Admin!")
         print("Which operation would you like to operate?")
@@ -57,7 +56,7 @@ def admin_work_on_students():
         operation  = input("enter no of the operration: ")
 
         if operation == "1":
-                add_student()
+                add_user("student")
         elif operation == "2":
                 update_user("student")
         elif operation == "3":
