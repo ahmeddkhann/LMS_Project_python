@@ -14,18 +14,10 @@ def requirements():
 
     return name, username, password, role
 
-def update_requirements(role):
-     if role == "admin" or role == "teacher":
+def update_requirements():
         name = input("Enter new name: ")
         username = input("Enter new username: ")
         password = input("Enter new password: ")
         return name, username, password
      
-     elif role == "students":
-         name = input("Enter new name: ")
-         username = input("Enter new username: ")
-         password = input("Enter new password: ")
-         marks = input("Enter new marks: ")
-         status = input("Enter new status: ")
-         return name, username, password, marks, status
     

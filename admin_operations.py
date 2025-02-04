@@ -83,16 +83,14 @@ def retrieve_user_list(role):
           print(f"Error while retrieving admin list: {e}")
 
 
-@check_auth
 def update_user(role):
      try:
           username = input("enter username of the user to be updated: ")
           new_collection = create_collection(role)
           find = new_collection.find_one({"username": username})
-          
+
           if find:
-               if role == "admin" or role == "teacher":
-                    name, new_username, password = update_requirements(role)
+                    name, new_username, password = update_requirements()
                     collection = create_collection(role)
                     result = collection.update_one({"username": username},{"$set": 
                     {
@@ -101,30 +99,17 @@ def update_user(role):
                          "password": password
                     }})
                     if result.matched_count > 0:
-                         print("Admin updated successfully")
+                         print("user updated successfully")
                     else:
-                         print("couldnot updated admin details")
+                         print("could not update user details")
 
-               elif role == "students" :
-                    name, new_username, password, marks, status = update_requirements(role)
-                    collection = create_collection(role)
-                    result = collection.update_one({"username": username},{"$set": 
-                    {
-                         "name": name,
-                         "username": new_username,
-                         "password": password,
-                         "marks": marks,
-                         "status": status
-                    }})
-                    if result.matched_count > 0:
-                         print("student updated successfully")
-                    else:
-                         print("couldnot updated admin details")
-
-               else:
-                    print(f"user with username {username} is not found")
+              
      except Exception as e :
           print(f"Error while updating student: {e}")
+
+update_user("students")
+
+
 
 
 
