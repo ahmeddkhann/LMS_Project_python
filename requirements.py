@@ -14,5 +14,10 @@ def requirements():
 
     return name, username, password, role
 
+def update_requirements():
+     name = input("Enter new name: ")
+     username = input("Enter new username: ")
+     password = input("Enter new password: ")
+     return name, username, password
     
     
