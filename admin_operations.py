@@ -40,32 +40,45 @@ def add_user(admin_role):
 @check_auth
 def remove_user(role):
      try:
-          admin_to_be_removed = input("enter admin username to be removed: ")
+          user_to_be_removed = input("enter user username to be removed: ")
           collection = create_collection(role)
-          admin_removal = collection.find_one({"username": admin_to_be_removed})
+          user_removal = collection.find_one({"username": user_to_be_removed})
 
-          if admin_removal:
-               collection.delete_one({"username": admin_to_be_removed})
-               print("Admin removed successfully")
+          if user_removal:
+               collection.delete_one({"username": user_to_be_removed})
+               print("user removed successfully")
           else:
-               print(f"Admin with username {admin_to_be_removed} is not found")
+               print(f"Admin with username {user_to_be_removed} is not found")
 
      except Exception as e:
           print(f"Error ocurred while removing an admin {e}")
-
 
 @check_auth
 def retrieve_user_list(role):
      try:
           collection = create_collection(role)
-          admins = list(collection.find({"role": "admin"}, {"_id":0 , "name": 1, "username": 1}))
-          if admins:
-            for admin in admins:
-               print(f"Admin name: {admin["name"]}")
-               print(f"Admin username: {admin["username"]}")
-               print()
-          else:
-               print("No admins found")
+          if role == "admin" or role == "teacher":
+             users = list(collection.find({"role": role}, {"_id":0 , "name": 1, "username": 1}))
+             if users:
+                 for user in users:
+                       print(f"user name: {user["name"]}")
+                       print(f"user username: {user["username"]}")
+                       print()
+             else:
+                print("No users are found")
+
+          elif role == "students":
+                users = list(collection.find({"role": "student"}, {"_id":0 , "name": 1, "username": 1, "marks": 1, "status": 1}))
+                if users:
+                   for user in users:
+                       print(f"Student name: {user["name"]}")
+                       print(f"Student username: {user["username"]}")
+                       print(f"Student Marks: {user["marks"]}")
+                       print(f"Student Status: {user["status"]}")
+                       print()
+                else:
+                   print("No students found")
+
      except Exception as e:
           print(f"Error while retrieving admin list: {e}")
 
@@ -73,28 +86,45 @@ def retrieve_user_list(role):
 @check_auth
 def update_user(role):
      try:
-          username = input("enter username of the admin to be updated: ")
+          username = input("enter username of the user to be updated: ")
           new_collection = create_collection(role)
           find = new_collection.find_one({"username": username})
           
           if find:
-               name, new_username, password = update_requirements()
-               collection = create_collection(role)
-               result = collection.update_one({"username": username},{"$set": 
-               {
-                    "name": name,
-                    "username": new_username,
-                    "password": password
-               }})
-               if result.matched_count > 0:
-                    print("Admin updated successfully")
-               else:
-                    print("couldnot updated admin details")
+               if role == "admin" or role == "teacher":
+                    name, new_username, password = update_requirements(role)
+                    collection = create_collection(role)
+                    result = collection.update_one({"username": username},{"$set": 
+                    {
+                         "name": name,
+                         "username": new_username,
+                         "password": password
+                    }})
+                    if result.matched_count > 0:
+                         print("Admin updated successfully")
+                    else:
+                         print("couldnot updated admin details")
 
-          else:
-               print(f"Admin with username {username} is not found")
+               elif role == "students" :
+                    name, new_username, password, marks, status = update_requirements(role)
+                    collection = create_collection(role)
+                    result = collection.update_one({"username": username},{"$set": 
+                    {
+                         "name": name,
+                         "username": new_username,
+                         "password": password,
+                         "marks": marks,
+                         "status": status
+                    }})
+                    if result.matched_count > 0:
+                         print("student updated successfully")
+                    else:
+                         print("couldnot updated admin details")
+
+               else:
+                    print(f"user with username {username} is not found")
      except Exception as e :
-          print(f"Error while updating admin: {e}")
+          print(f"Error while updating student: {e}")
 
 
 
