@@ -1,4 +1,4 @@
-from admin_operations import add_user, update_user, remove_user, retrieve_user_list
+from admin_operations import add_user, update_user, remove_user, retrieve_user_list, retrieve_students_on_status, update_student_marks_and_status
 def admin_work():
         print("Welcome Admin!")
         print("Which operation would you like to operate?")
@@ -49,10 +49,8 @@ def admin_work_on_teachers():
 def admin_work_on_students():
     try:
         admin_work()
-        print("5. update student marks: ")
-        print("6. update student status")
-        print("7. retreive pass students list")
-        print("8. retrieve fail students list")
+        print("5. update student marks and status: ")
+        print("6. retrieve student status list: ")
         operation  = input("enter no of the operration: ")
 
         if operation == "1":
@@ -64,13 +62,9 @@ def admin_work_on_students():
         elif operation == "4":
                 remove_user("student")
         elif operation == "5":
-                pass
+                update_student_marks_and_status()
         elif operation == "6":
-                pass
-        elif operation == "7":
-                pass
-        elif operation == "8":
-                pass
+                retrieve_students_on_status()
         else:
                 print("Invalid Input!")
 

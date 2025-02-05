@@ -106,8 +106,9 @@ def update_user(role):
               
      except Exception as e :
           print(f"Error while updating student: {e}")
+          
 
-
+@check_auth
 def retrieve_students_on_status():
      try:
           print("Retrieve students based on their status")
@@ -134,21 +135,38 @@ def retrieve_students_on_status():
           print(f"Error while retrieving students on status: {e}")
 
 
-def update_marks():
-     try:
-          print("Update Student Marks")
-          username = input("enter username of the student: ")
-          collection = create_collection("students")
-          student = collection.find_one({"username": username})
+@check_auth
+def update_student_marks_and_status():
+    try:
+        print("Update Student Marks")
+        username = input("Enter username of the student: ")
+        collection = create_collection("students")
+        student = collection.find_one({"username": username})
 
-          if student:
-               marks = int(input("Enter new marks: "))
-               collection.update_one({"username": username}, {"$set": {"marks": marks}})
-               return username
-          else:
-               print(f"Student with username: {username} is not found!")
-     except Exception as e:
-          print(f"Error while updating student marks: {e}")
+        if student:
+            marks = input("Enter new marks: ")
+            collection.update_one({"username": username}, {"$set": {"marks": marks}})
+            update_status = input("Want to update status of the student? Enter y for yes and n for no: ").lower()
+
+            if update_status == "y":
+                old_status = collection.find_one({"username": username}, {"_id": 0, "status": 1})
+
+                if old_status and "status" in old_status:
+                    new_status = "fail" if old_status["status"] == "pass" else "pass"
+                    collection.update_one({"username": username}, {"$set": {"status": new_status}})
+                    print(f"Student {username} status updated to {new_status}")
+                else:
+                    print(f"Could not retrieve status for {username}")
+
+            elif update_status == "n":
+                print(f"Student {username} status not updated")
+            else:
+                print("Invalid input! Enter y or n only.")
+        else:
+            print(f"Student with username: {username} is not found!")
+
+    except Exception as e:
+        print(f"Error while updating student marks: {e}")
 
 
      
