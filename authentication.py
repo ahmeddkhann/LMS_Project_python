@@ -9,7 +9,7 @@ def check_auth(func):
             username = input("Enter your username: ")
             password = input("Enter your password: ")
             role = input("enter your role: ")
-            if role == "admin" or role == "teachers":
+            if role == "admin" or role == "teacher":
               def check_validation():
                 collection = create_collection(role)
                 user_document = collection.find_one({"username": username})

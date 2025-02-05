@@ -106,13 +106,14 @@ def update_user(role):
               
      except Exception as e :
           print(f"Error while updating student: {e}")
-          
+
 
 @check_auth
 def retrieve_students_on_status():
      try:
           print("Retrieve students based on their status")
           status = input("enter pass for pass students and fail for students that are failed: ").lower()
+          print()
           collection = create_collection("students")
           if status == "pass" or status == "fail":
                students = list(collection.find({"status": status}, {

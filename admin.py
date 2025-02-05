@@ -1,4 +1,6 @@
-from admin_operations import add_user, update_user, remove_user, retrieve_user_list, retrieve_students_on_status, update_student_marks_and_status
+from admin_operations import add_user, update_user, remove_user, retrieve_user_list
+from admin_operations import retrieve_students_on_status, update_student_marks_and_status
+
 def admin_work():
         print("Welcome Admin!")
         print("Which operation would you like to operate?")
@@ -71,6 +73,4 @@ def admin_work_on_students():
     except Exception as e :
         print(f"Error while handling students operations: {e}")
 
-
-admin_work_on_students()
 
