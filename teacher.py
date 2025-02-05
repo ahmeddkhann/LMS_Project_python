@@ -22,4 +22,3 @@ def teacher_work_on_students():
     except Exception as e :
         print(f"Error while handling students operations: {e}")
 
-teacher_work_on_students()
