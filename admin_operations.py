@@ -134,7 +134,21 @@ def retrieve_students_on_status():
           print(f"Error while retrieving students on status: {e}")
 
 
-retrieve_students_on_status()
+def update_marks():
+     try:
+          print("Update Student Marks")
+          username = input("enter username of the student: ")
+          collection = create_collection("students")
+          student = collection.find_one({"username": username})
+
+          if student:
+               marks = int(input("Enter new marks: "))
+               collection.update_one({"username": username}, {"$set": {"marks": marks}})
+               return username
+          else:
+               print(f"Student with username: {username} is not found!")
+     except Exception as e:
+          print(f"Error while updating student marks: {e}")
 
 
      
