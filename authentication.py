@@ -2,7 +2,6 @@ from connect import create_collection
 
 def check_auth(func): 
     def wrapper (*args, **kwargs): 
-
         try:
             print("Following details are requird for authentication: ")
             print("1.Username")
@@ -30,8 +29,6 @@ def check_auth(func):
             is_validated = check_validation()
             if is_validated:
                 return func(*args, **kwargs)
-
         except Exception as e:
-            print("An error occurred while checking user credentials: ", str(e))
-    
+            print("An error occurred while checking user credentials: ", str(e))   
     return wrapper

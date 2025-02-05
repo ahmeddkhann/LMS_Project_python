@@ -4,19 +4,19 @@ from requirements import requirements
 from requirements import update_requirements
 
 @check_auth
-def add_user(admin_role):
+def add_user(user_role):
     try:   
         user_details = requirements()
         if len(user_details) == 4:
               name, username, password, role = user_details
-              admin_data = {
+              user_data = {
                "name": name,
                "username": username,
                "password": password,
                "role": role
           }
-              collection = create_collection(admin_role)
-              collection.insert_one(admin_data)
+              collection = create_collection(user_role)
+              collection.insert_one(user_data)
               print(f" added user with role: {role}")
 
         elif len(user_details) == 6:
@@ -82,7 +82,7 @@ def retrieve_user_list(role):
      except Exception as e:
           print(f"Error while retrieving admin list: {e}")
 
-
+@check_auth
 def update_user(role):
      try:
           username = input("enter username of the user to be updated: ")
@@ -107,11 +107,34 @@ def update_user(role):
      except Exception as e :
           print(f"Error while updating student: {e}")
 
-update_user("students")
+
+def retrieve_students_on_status():
+     try:
+          print("Retrieve students based on their status")
+          status = input("enter pass for pass students and fail for students that are failed: ").lower()
+          collection = create_collection("students")
+          if status == "pass" or status == "fail":
+               students = list(collection.find({"status": status}, {
+                   "_id": 0, "name": 1, "username": 1, "status": 1, "marks": 1
+               }))
+
+               if students:
+                    for student in students:
+                         print(f"Student name: {student['name']}")
+                         print(f"Student username: {student['username']}")
+                         print(f"Student Marks: {student['marks']}")
+                         print(f"Student Status: {student['status']}")
+                         print()              
+               else:
+                    print(f"No students found with the status: {status}")
+          else:
+               print("Invalid Status! enter pass or fail only.")
+
+     except Exception as e:
+          print(f"Error while retrieving students on status: {e}")
 
 
-
-
+retrieve_students_on_status()
 
 
      
