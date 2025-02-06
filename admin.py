@@ -56,13 +56,13 @@ def admin_work_on_students():
         operation  = input("enter no of the operration: ")
 
         if operation == "1":
-                add_user("student")
+                add_user("students")
         elif operation == "2":
-                update_user("student")
+                update_user("students")
         elif operation == "3":
-                retrieve_user_list("student")
+                retrieve_user_list("students")
         elif operation == "4":
-                remove_user("student")
+                remove_user("students")
         elif operation == "5":
                 update_student_marks_and_status()
         elif operation == "6":
