@@ -16,8 +16,12 @@ def add_user(user_role):
                "role": role
           }
               collection = create_collection(user_role)
-              collection.insert_one(user_data)
-              print(f" added user with role: {role}")
+              check_username = collection.find_one({"username": username})
+              if check_username:
+                   print(f"username {username} already exists!")
+              else:
+                   collection.insert_one(user_data)
+                   print(f" added user with role: {role}")
 
         elif len(user_details) == 6:
              name, username, password, role, marks, status = user_details
@@ -30,8 +34,13 @@ def add_user(user_role):
               "status": status
        }
              collection = create_collection("students")
-             collection.insert_one(student_data)
-             print(f" added user with role: {role}")
+             check_username = collection.find_one({"username": username})
+             if check_username:
+                   print(f"username {username} already exists!")
+             else:
+                   collection.insert_one(student_data)
+                   print(f" added user with role: student")
+
         
     except Exception as e:
          print(f"Error while adding user: {e}")
